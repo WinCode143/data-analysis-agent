@@ -1,0 +1,27 @@
+# Demo Postgres with customers and support tickets (loaded from demo/postgres/init.sql).
+services:
+  demo-postgres:
+    image: postgres:16-alpine
+    container_name: insight-demo-postgres
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: shop
+    ports:
+      - "5442:5432"
+    volumes:
+      - ./demo/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  # Demo MySQL with marketing campaigns (demo/mysql/init.sql).
+  demo-mysql:
+    image: mysql:8.4
+    container_name: insight-demo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootdemo
+      MYSQL_DATABASE: marketing
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: demo
+    ports:
+      - "3316:3306"
+    volumes:
+      - ./demo/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
